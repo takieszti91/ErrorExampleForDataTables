@@ -11,41 +11,21 @@ $( document ).ready(function() {
 		]
 	} );
 
-	new $.fn.dataTable.ColumnFilter(myDataTable, {
-	  0: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  },
-	  1: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  },
-	  2: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  },
-	  3: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  },
-	  4: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  },
-	  5: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  },
-	  6: {
-		html: 'input',
-		type: 'text',
-		regexp : true
-	  }
-	});
+	var num_of_columns = 6;
+
+	function getColumnFilterObject(){
+		var columnfilter_object = {};
+		for (var i = 0; i < num_of_columns; i++) {
+			columnfilter_object[i] = {html: 'input', type: 'text', regexp : true};
+		}
+		return columnfilter_object;
+	}
+
+	$('#myTable').on( 'column-visibility.dt', function ( e, settings, column, state ) {
+		num_of_columns+=(state ? 1 : -1);
+		new $.fn.dataTable.ColumnFilter(myDataTable, getColumnFilterObject());
+	} );
+
+	new $.fn.dataTable.ColumnFilter(myDataTable, getColumnFilterObject());
+
 });
